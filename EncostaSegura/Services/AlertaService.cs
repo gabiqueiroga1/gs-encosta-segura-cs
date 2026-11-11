@@ -34,15 +34,16 @@ namespace EncostaSegura.Services
         {
             ArgumentNullException.ThrowIfNull(estacao);
 
-            Alerta? alertaAtivo = _alertas.FirstOrDefault(
-                alerta =>
-                    alerta.CodigoEstacao == estacao.Codigo &&
-                    !alerta.Encerrado);
+            Alerta? alertaAtivo = null;
 
-            if (estacao.RiscoAtual == NivelRisco.Baixo)
+            foreach (Alerta alerta in _alertas)
             {
-                alertaAtivo?.Encerrar();
-                return;
+                if (alerta.CodigoEstacao == estacao.Codigo &&
+                    !alerta.Encerrado)
+                {
+                    alertaAtivo = alerta;
+                    break;
+                }
             }
 
             Leitura? leitura = estacao.UltimaLeitura;
