@@ -28,15 +28,18 @@ namespace EncostaSegura.Data
 
         public void Salvar(PontoDeApoioService service)
         {
-            List<PontoDeApoioDto> dados = service.ObterTodos()
-                .Select(ponto => new PontoDeApoioDto
+            List<PontoDeApoioDto> dados = new();
+
+            foreach (PontoDeApoio ponto in service.ObterTodos())
+            {
+                dados.Add(new PontoDeApoioDto
                 {
                     Nome = ponto.Nome,
                     Endereco = ponto.Endereco,
                     RotaSegura = ponto.RotaSegura,
                     Ativo = ponto.Ativo
-                })
-                .ToList();
+                });
+            }
 
             string json = JsonSerializer.Serialize(
                 dados,
