@@ -19,10 +19,15 @@ namespace EncostaSegura.Services
 
         public IReadOnlyList<Alerta> ObterAtivos()
         {
-            return _alertas
-                .Where(alerta => !alerta.Encerrado)
-                .ToList()
-                .AsReadOnly();
+            List<Alerta> ativos = new();
+
+            foreach (Alerta alerta in _alertas)
+            {
+                if (!alerta.Encerrado)
+                    ativos.Add(alerta);
+            }
+
+            return ativos.AsReadOnly();
         }
 
         public void SincronizarComEstacao(Estacao estacao)
