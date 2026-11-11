@@ -24,8 +24,13 @@ namespace EncostaSegura.Services
 
         public Estacao? BuscarPorCodigo(string codigo)
         {
-            return _estacoes.FirstOrDefault(
-                estacao => estacao.Codigo == codigo);
+            foreach (Estacao estacao in _estacoes)
+            {
+                if (estacao.Codigo == codigo)
+                    return estacao;
+            }
+
+            return null;
         }
 
         public void AdicionarLeitura(string codigo, Leitura leitura)
